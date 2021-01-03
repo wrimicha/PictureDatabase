@@ -9,15 +9,15 @@
         android:id="@+id/UploadFragment"
         android:name="sheridan.wrimicha.moviedatabase.FirstFragment"
         android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_first">
+        tools:layout="@layout/upload_fragment">
 
-        <argument
-            android:name="uploadId"
-            app:argType="long"
-            android:defaultValue="-1L" />
         <action
             android:id="@+id/action_UploadFragment_to_ImagesFragment"
             app:destination="@id/ImagesFragment" />
+        <argument
+            android:name="key"
+            app:argType="string"
+            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/ImagesFragment"

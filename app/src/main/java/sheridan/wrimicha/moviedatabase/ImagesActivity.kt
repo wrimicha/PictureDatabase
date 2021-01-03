@@ -1,6 +1,7 @@
 package sheridan.wrimicha.moviedatabase
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import sheridan.wrimicha.moviedatabase.databinding.ImagesViewBinding
+import sheridan.wrimicha.moviedatabase.domain.UploadDataId
 
 
 /**
@@ -85,11 +87,18 @@ class ImagesActivity : Fragment(), ImageAdapter.OnItemClickListener {
 
     override fun onEditClick(position: Int) {
         val selectedItem = mUploads[position]
+        val selectedKey = selectedItem.getKey()
 
-        val imgRef : String = mStorage.getReferenceFromUrl(selectedItem.getImageUri()!!).toString()
-        val titleRef : String = mStorage.getReferenceFromUrl(selectedItem.getName()!!).toString()
+//        val imgRef : String = selectedItem.getImageUri().toString()
+//        Log.d("IMAGE REF", imgRef)
+//
+//        val titleRef = selectedItem.getName().toString()
+//        Log.d("TITLE REF", titleRef)
 
-        findNavController().navigate(ImagesActivityDirections.actionImagesFragmentToFirstFragment())
+        //put these values into a viewModel ?
+        //then when you load up your edit file you can grab these values and display them on the screen
+
+        findNavController().navigate(ImagesActivityDirections.actionImagesFragmentToFirstFragment(selectedKey!!))
     }
 
     override fun onDeleteClick(position: Int) {
@@ -108,6 +117,8 @@ class ImagesActivity : Fragment(), ImageAdapter.OnItemClickListener {
 
     override fun onDestroy() {
         super.onDestroy()
-        mDatabaseRef.removeEventListener(mDBListener)
+        if (this::mDatabaseRef.isInitialized) {    //If I remove this it causes an error.. Why?
+            mDatabaseRef.removeEventListener(mDBListener)
+        }
     }
 }
